@@ -7,7 +7,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "task")
+@Table(name = "task", indexes = {
+        @Index(name = "idx_task_title", columnList = "title"),
+        @Index(name = "idx_task_status", columnList = "status")
+})
 @Getter
 @Setter
 @AllArgsConstructor
@@ -21,11 +24,11 @@ public class Task {
     private String title;
     private String status;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "projet_id")
     private Projet projet;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "users_id")
     private User user;
 }
